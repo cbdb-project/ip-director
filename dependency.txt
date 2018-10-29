@@ -1,0 +1,6 @@
+go get -u github.com/gorilla/mux
+go get github.com/oschwald/geoip2-golang
+go get github.com/stretchr/testify/assert
+
+Notes: Please do run Testing for geoip2. The testing method can be found in github page
+
