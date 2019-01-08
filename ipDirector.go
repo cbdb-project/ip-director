@@ -3,6 +3,7 @@
 import (
 	"bufio"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net"
 	"net/http"
@@ -71,12 +72,18 @@ func ipToCountry(w http.ResponseWriter, r *http.Request) {
 	clinetIP = r.Header.Get("X-real-ip")
 	//fmt.Println(clinetIP)
 	ipAddr := clinetIP
-	countryName = queryIPToCountry(ipAddr)
+	if ipAddr != "" {
+		countryName = queryIPToCountry(ipAddr)
+	} else {
+		countryName = "None"
+	}
+
 	output = countryToURL(countryName)
 
-	// fmt.Println(ipAddr)
+	fmt.Println(ipAddr)
 	// fmt.Println(countryName)
-	json.NewEncoder(w).Encode(output)
+	//json.NewEncoder(w).Encode(output)
+	http.Redirect(w, r, output, http.StatusSeeOther)
 }
 
 func ipToCountrySubmitAddr(w http.ResponseWriter, r *http.Request) {
@@ -86,6 +93,12 @@ func ipToCountrySubmitAddr(w http.ResponseWriter, r *http.Request) {
 	countryName = queryIPToCountry(ipAddr)
 	output = countryToURL(countryName)
 	json.NewEncoder(w).Encode(output)
+	//http.Redirect(w, r, output, http.StatusSeeOther)
+}
+
+func dontDirect(w http.ResponseWriter, r *http.Request) {
+	urlND := "https://projects.iq.harvard.edu/cbdb/accessing-cbdb-online"
+	http.Redirect(w, r, urlND, http.StatusSeeOther)
 }
 
 //test:
@@ -96,6 +109,7 @@ func main() {
 	r.HandleFunc("/", ipToCountry)
 	r.HandleFunc("/ipToCountry", ipToCountry)
 	r.HandleFunc("/ipToCountrySubmitAddr/{ipAddr}", ipToCountrySubmitAddr)
+	r.HandleFunc("/nd", dontDirect)
 	log.Fatal(http.ListenAndServe(":8012", r))
 	return
 
