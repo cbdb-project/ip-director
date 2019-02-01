@@ -21,6 +21,10 @@ You can revise these URLs to what you want.
 
 _Direct through current visitor's IP:_
 
+http://127.0.0.1:8012/
+
+or
+
 http://127.0.0.1:8012/ipToCountry
 
 _Direct through a submitted IP for test:_
