@@ -1,10 +1,6 @@
 # ip-director
 Direct IPs from different geographical locations to different URLs.
 
-This is only an API which will tell you which URL will be directed.
-
-It will not direct users directly.
-
 # Server installation
 
 go get -u github.com/gorilla/mux
